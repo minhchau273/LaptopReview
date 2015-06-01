@@ -1,17 +1,24 @@
+--DROP DATABASE DemoLRA
 CREATE DATABASE DemoLRA
 
 USE DemoLRA
 
 CREATE TABLE Product (
 	Id				INT IDENTITY PRIMARY KEY,
-	Name			NVARCHAR(200),
 	[Description]	NVARCHAR(MAX),
+	BrandId			INT,
+	IsApproved		BIT,
+	IsActive		BIT
+)
+
+CREATE TABLE AliasProduct (
+	Id				INT IDENTITY PRIMARY KEY,
+	ProductId		INT,
+	Name			NVARCHAR(200),
 	Price			FLOAT,
 	Url				NVARCHAR(MAX),
-	BrandId			INT,
-	SourceId		INT,
+	SiteId			INT,
 	IsMain			BIT,
-	GeneralId		INT,
 	IsApproved		BIT,
 	IsActive		BIT
 )
@@ -21,7 +28,7 @@ CREATE TABLE Brand (
 	Name	NVARCHAR(50)
 )
 
-CREATE TABLE [Source] (
+CREATE TABLE [Site] (
 	Id			INT IDENTITY PRIMARY KEY,
 	Url			NVARCHAR(MAX),
 	IsActive	BIT
@@ -57,14 +64,19 @@ CREATE TABLE WordType (
 	Name		NVARCHAR(20)
 )
 
+ALTER TABLE AliasProduct
+	ADD CONSTRAINT FK_Product_Product
+		FOREIGN KEY (ProductId) REFERENCES Product(Id)
+GO
+
 ALTER TABLE Product
 	ADD CONSTRAINT FK_Product_Brand
 		FOREIGN KEY (BrandId) REFERENCES Brand(Id)
 GO
 
-ALTER TABLE Product
-	ADD CONSTRAINT FK_Product_Source
-		FOREIGN KEY (SourceId) REFERENCES Source(Id)
+ALTER TABLE AliasProduct
+	ADD CONSTRAINT FK_AliasProduct_Site
+		FOREIGN KEY (SiteId) REFERENCES Site(Id)
 GO
 
 ALTER TABLE [Image]
