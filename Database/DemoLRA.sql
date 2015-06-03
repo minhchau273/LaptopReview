@@ -55,13 +55,13 @@ CREATE TABLE CommentType (
 
 CREATE TABLE Dictionary (
 	Id			INT IDENTITY PRIMARY KEY,
-	Word		NVARCHAR(20),
+	Word		NVARCHAR(MAX),
 	WordTypeId	INT
 )
 
 CREATE TABLE WordType (
 	Id			INT IDENTITY PRIMARY KEY,
-	Name		NVARCHAR(20)
+	Name		NVARCHAR(MAX)
 )
 
 ALTER TABLE AliasProduct
